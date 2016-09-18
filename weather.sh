@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Which day you are interested in 1: Yesterday, 2: any previous day"
+echo "Enter 1: for Yesterday or 2: for any previous day"
 read dt
 
 if [ $dt -eq 1 ]
@@ -25,14 +25,13 @@ else
 	    exit 1
 		
 	fi
-
 fi
 
 x=`curl -s "https://www.wunderground.com/history/airport/GNV/$year/$month/$day/DailyHistory.heml?&format=1"| \
 	cat |grep -E "\w+M\,"|awk '{print $2}'| awk -F',' '{print $2}'|sort -nr| head -n1 | \
 	awk '{$0=int($0)}1'`
 
-echo Temperature on that day was round to $x degrees Fahrenheit
+echo Maximum temperature on the  day was about $x degrees Fahrenheit
 
 if [ $x -le 50 ]
 then
@@ -40,7 +39,7 @@ then
 
 elif [ $x -ge 51 ] && [ $x -le 80 ]
 then
-   echo "Ah, nice day"
+   echo "Ah, It was a nice day"
 
 else
    echo "It was too hot!"
